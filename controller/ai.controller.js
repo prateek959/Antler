@@ -1,5 +1,4 @@
 import { redis } from "../redis/redis.connection.js";
-import base62 from 'base62';
 import crypto from 'crypto';
 
 const generateRedisKey = (messages) => {
@@ -27,7 +26,7 @@ const ai = async (req, res) => {
 
         const updatedMessages = [systemMessage, userMessage];
         const redisKey = generateRedisKey(updatedMessages);
-        console.log(redisKey)
+        // console.log(redisKey)
         const dataRedis = await redis.get(redisKey);
         if (dataRedis) {
             // console.log("redis");
