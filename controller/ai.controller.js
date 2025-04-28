@@ -1,10 +1,10 @@
 import { redis } from "../redis/redis.connection.js";
 import base62 from 'base62';
+import crypto from 'crypto';
 
 const generateRedisKey = (messages) => {
-    const jsonString = JSON.stringify(messages);  
-    const buffer = Buffer.from(jsonString);       
-    return base62.encode(buffer); 
+    const jsonString = JSON.stringify(messages);
+    return crypto.createHash('sha256').update(jsonString).digest('hex').slice(0, 10);
 };
 
 const ai = async (req, res) => {
