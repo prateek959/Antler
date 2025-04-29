@@ -50,7 +50,7 @@ const storage = multer.diskStorage({
 });
 const upload = multer({ storage });
 
-app.use('/analyze', aiRouter);
+app.use('/analyze',upload.single('file'), aiRouter);
 app.use('/upload', upload.single('file'), uploadRouter);
 
 

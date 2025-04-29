@@ -62,4 +62,53 @@ const ai = async (req, res) => {
     }
 };
 
-export { ai };
+
+
+
+
+const aiAnalysis = async (req, res) => {
+  try {
+    const documentText = req.text;
+
+    const systemMessage = {
+      role: "system",
+      content: "You are an expert document analyst. Your job is to analyze the following document tone, clarity, and give a concise summary. Provide only the analysis and do not repeat the document. Respond in English."
+    };
+
+    const userMessage = {
+      role: "user",
+      content: `Analyze this document:\n\n${documentText}`
+    };
+
+    const messages = [systemMessage, userMessage];
+
+    const response = await fetch("https://openrouter.ai/api/v1/chat/completions", {
+      method: "POST",
+      headers: {
+        "Authorization": `Bearer ${process.env.AI_KEY}`,
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        model: "deepseek/deepseek-r1:free",
+        messages: messages
+      })
+    });
+
+    if (!response.ok) {
+      throw new Error(`AI API responded with status ${response.status}`);
+    }
+
+    const data = await response.json();
+
+    const aiResponse = data?.choices?.[0]?.message?.content || "No analysis returned.";
+
+    res.status(200).json({ analysis: aiResponse });
+
+  } catch (error) {
+    console.error("AI Analysis Error:", error);
+    res.status(500).json({ msg: "Internal server error" });
+  }
+};
+
+
+export { aiAnalysis, ai };

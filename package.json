@@ -20,6 +20,7 @@
     "express-rate-limit": "^7.5.0",
     "ioredis": "^5.6.1",
     "jsonwebtoken": "^9.0.2",
+    "mammoth": "^1.9.0",
     "mongoose": "^8.14.0",
     "multer": "^1.4.5-lts.2",
     "node-cron": "^3.0.3",
